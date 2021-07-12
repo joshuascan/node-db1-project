@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Account = require("./accounts-model");
+const md = require("./accounts-middleware");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -10,20 +11,32 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", (req, res, next) => {
-  // DO YOUR MAGIC
+router.get("/:id", md.checkAccountId, (req, res, next) => {
+  res.json(req.account);
 });
 
 router.post("/", (req, res, next) => {
-  // DO YOUR MAGIC
+  try {
+    res.json("post new account");
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.put("/:id", (req, res, next) => {
-  // DO YOUR MAGIC
+  try {
+    res.json("update account");
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.delete("/:id", (req, res, next) => {
-  // DO YOUR MAGIC
+  try {
+    res.json("delete account");
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.use((err, req, res, next) => {
