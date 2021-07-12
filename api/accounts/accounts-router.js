@@ -15,13 +15,18 @@ router.get("/:id", md.checkAccountId, (req, res, next) => {
   res.json(req.account);
 });
 
-router.post("/", (req, res, next) => {
-  try {
-    res.json("post new account");
-  } catch (err) {
-    next(err);
+router.post(
+  "/",
+  md.checkAccountPayload,
+  md.checkAccountNameUnique,
+  (req, res, next) => {
+    try {
+      res.json("post new account");
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.put("/:id", (req, res, next) => {
   try {
