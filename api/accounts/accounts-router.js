@@ -30,17 +30,24 @@ router.post(
   }
 );
 
-router.put("/:id", (req, res, next) => {
-  try {
-    res.json("update account");
-  } catch (err) {
-    next(err);
+router.put(
+  "/:id",
+  md.checkAccountId,
+  md.checkAccountPayload,
+  md.checkAccountNameUnique,
+  (req, res, next) => {
+    try {
+      res.json("update account");
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", md.checkAccountId, async (req, res, next) => {
   try {
-    res.json("delete account");
+    await Account.deleteById(req.params.id);
+    res.json(req.account);
   } catch (err) {
     next(err);
   }
